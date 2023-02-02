@@ -26,6 +26,12 @@ app.use(express.json());
 
 // Handling requests targeting all users //
 
+app.get("/",(req,res)=>{
+  res.json({
+    message:"Test the other"
+  })
+})
+
 app.get("/users", async (req, res) => {
   const users = [];
   const colRef = collection(db, "users");
