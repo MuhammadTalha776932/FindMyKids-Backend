@@ -85,6 +85,7 @@ app.post("/users", (req, res) => {
   // const deviceID = req.body.data.deviceID;
   // const code = req.body.data.rand;
   let code1 = "A1B34F";
+
   let code2 = "AHS32F";
   let code3 = "A13334F";
   let code4 = "C1B341";
