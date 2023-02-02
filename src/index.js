@@ -84,7 +84,7 @@ app.post("/users/coordinate", (req, res) => {
   res.json("");
 });
 
-app.post("/users", (req, res) => {
+app.post("https://find-my-kids-backend.vercel.app/users", (req, res) => {
   // const uEmail = req.body.data.user.email;
   // const id = req.body.data.user.uid;
   // const deviceID = req.body.data.deviceID;
@@ -101,6 +101,7 @@ app.post("/users", (req, res) => {
   // console.log(deviceID);
   // console.log(code);
   console.log(id, "rand: ", code1);
+  res.json(composite_no);
 
   // const data = {
   //   uEmail,
