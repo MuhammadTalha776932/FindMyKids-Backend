@@ -26,7 +26,7 @@ app.use(express.json());
 
 // Handling requests targeting all users //
 app.get("/",(req,res)=>{
-  res.send("Hello")
+  res.send("<h1>Helo<h1>");
 })
 
 
