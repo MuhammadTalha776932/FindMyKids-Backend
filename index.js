@@ -25,6 +25,10 @@ const app = express();
 app.use(express.json());
 
 // Handling requests targeting all users //
+app.get("/",(req,res)=>{
+  res.send("Hello")
+})
+
 
 app.get("/users", async (req, res) => {
   const users = [];
