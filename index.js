@@ -75,8 +75,8 @@ app.post("/users/signin", (req, res) => {
 let i = 0;
 app.post("/users/coordinate", (req, res) => {
   const { latitude, longitude } = req.body.data;
-  console.log("====> " + ++i, latitude, longitude);
 
+  console.log("====> " + ++i, latitude, longitude);
   res.json("");
 });
 
