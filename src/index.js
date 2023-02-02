@@ -25,7 +25,7 @@ const app = express();
 app.use(express.json());
 
 // Handling requests targeting all users //
-app.get("/",(req,res)=>{
+app.use("/",(req,res)=>{
   res.send("<h1>Helo<h1>");
 })
 
