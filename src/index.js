@@ -26,7 +26,9 @@ app.use(express.json());
 
 // Handling requests targeting all users //
 
-
+app.get("",(req,res)=>{
+  res.json({name:"Muhammad talah"})
+})
 
 app.get("https://find-my-kids-backend.vercel.app/users", async (req, res) => {
   const users = [];
