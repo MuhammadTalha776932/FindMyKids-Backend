@@ -25,12 +25,10 @@ const app = express();
 app.use(express.json());
 
 // Handling requests targeting all users //
-app.use("/",(req,res)=>{
-  res.send("<h1>Helo<h1>");
-})
 
 
-app.get("/users", async (req, res) => {
+
+app.get("https://find-my-kids-backend.vercel.app/users", async (req, res) => {
   const users = [];
   const colRef = collection(db, "users");
   getDocs(colRef).then((result) => {
@@ -84,7 +82,7 @@ app.post("/users/coordinate", (req, res) => {
   res.json("");
 });
 
-app.post("https://find-my-kids-backend.vercel.app/users", (req, res) => {
+app.post("/users", (req, res) => {
   // const uEmail = req.body.data.user.email;
   // const id = req.body.data.user.uid;
   // const deviceID = req.body.data.deviceID;
