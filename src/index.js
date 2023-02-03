@@ -86,9 +86,9 @@ app.post("/users/coordinate", (req, res) => {
 });
 
 app.post("/users", (req, res) => {
-  // const uEmail = req.body.data.user.email;
-  // const id = req.body.data.user.uid;
-  // const deviceID = req.body.data.deviceID;
+  const uEmail = req.body.data.user.email;
+  const id = req.body.data.user.uid;
+  const deviceID = req.body.data.deviceID;
   // const code = req.body.data.rand;
   let code1 = "A1B34F";
   let code2 = "AHS32F";
@@ -97,12 +97,12 @@ app.post("/users", (req, res) => {
   let code5 = "11B34Q";
 
   const composite_no = code1;
-  // console.log(uEmail);
-  // console.log(id);
-  // console.log(deviceID);
+  console.log(uEmail);
+  console.log(id);
+  console.log(deviceID);
   // console.log(code);
-  console.log(id, "rand: ", code1);
-  res.json(composite_no);
+//   console.log(id, "rand: ", code1);
+  res.json();
 
   // const data = {
   //   uEmail,
@@ -110,16 +110,16 @@ app.post("/users", (req, res) => {
   //   deviceID,
   //   code,
   // };
-  const colRef = collection(db, "users");
+//   const colRef = collection(db, "users");
 
-  setDoc(doc(colRef, composite_no), {
-    name: "Los Angeles",
-    state: "CA",
-    country: "PAK",
-    capital: false,
-    population: 860000,
-    regions: ["west_coast", "norcal"],
-  });
+//   setDoc(doc(colRef, composite_no), {
+//     name: "Los Angeles",
+//     state: "CA",
+//     country: "PAK",
+//     capital: false,
+//     population: 860000,
+//     regions: ["west_coast", "norcal"],
+//   });
   // addDoc(colRef, req.body.data).then((response) => res.send(response));
 });
 
