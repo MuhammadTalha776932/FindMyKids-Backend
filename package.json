@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/Muhammad_Talha/index.js"
+    "start": "node index.js",
+    "dev":"nodemon src/Muhammad_Talha/index.js"
   },
   "author": "Yasir",
   "license": "ISC",
