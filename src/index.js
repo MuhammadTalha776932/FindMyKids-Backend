@@ -51,9 +51,10 @@ app.post("/users/child/notifications",(req,res)=>{
   // const {notification,topic} = data;
   admin.messaging().send({
     notification:{
-     title:""
+      title:"hi",
+      body:"not"
     },
-    topic:topic,
+    topic:"SOS"
     // token:"dLEQ0VuLSy-wZyE7fbgdgf:APA91bHnVei6Hv_eNMnLElORqLEVWFjD9g-k-wChUzGiSxMNak48lRf3ViM5hIFheH_u7m6LcYkpg60hCbYY7d5JLUQOKkCGGmhD3zAi2gMYpuzSHxcnh-oC5f1ZYBI5D2kPVncMVUBc",
   })
 })
