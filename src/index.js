@@ -1,5 +1,7 @@
 import { User, db, auth } from "./config.js";
 import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
 import {
   addDoc,
   collection,
@@ -32,6 +34,11 @@ admin.initializeApp({
 const app = express();
 
 app.use(express.json());
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 // Handling requests targeting all users //
 
