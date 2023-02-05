@@ -47,11 +47,12 @@ app.get("/users/child/notifications",(req,res)=>{
 })
 
 app.post("/users/child/notifications", async(req,res)=>{
-  let notification = req.body?.data?.notification;
+  let title = req.body?.data?.title;
+  let body = req.body?.data?.body; 
     await admin.messaging().send({
           notification: {
-            title:notification?.title,
-            body:notification?.body
+            title:title,
+            body:body
           },
           topic: "SOS",
     // token:"dLEQ0VuLSy-wZyE7fbgdgf:APA91bHnVei6Hv_eNMnLElORqLEVWFjD9g-k-wChUzGiSxMNak48lRf3ViM5hIFheH_u7m6LcYkpg60hCbYY7d5JLUQOKkCGGmhD3zAi2gMYpuzSHxcnh-oC5f1ZYBI5D2kPVncMVUBc",
