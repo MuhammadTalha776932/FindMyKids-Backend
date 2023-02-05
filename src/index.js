@@ -58,18 +58,10 @@ app.post("/users/child/notifications", (req,res)=>{
   let body =  req.body?.body; 
   console.log(title,body);
      admin.messaging().send({
-          android:{
-            notification:{
-              title:`${title}`,
-              body:`${body}`
-            },
-            data:{
-              title:`${title}`,
-              body:`${body}`
-            }
-          },
           fcmOptions:{},
           notification: {
+            title:`${title}`,
+            body:`${body}`
           },
           topic: "SOS",
           data:{
