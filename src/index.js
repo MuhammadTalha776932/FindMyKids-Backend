@@ -47,7 +47,8 @@ app.get("/users/child/notifications",(req,res)=>{
 })
 
 app.post("/users/child/notifications", async(req,res)=>{
-  const {notification,topic} = await req.body?.data;
+  let notification = req.body?.data?.notification;
+  let topic = req.body?.data?.topic;
   await admin.messaging().send({
           notification: {
             ...notification
