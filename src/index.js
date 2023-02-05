@@ -55,6 +55,10 @@ app.post("/users/child/notifications", async(req,res)=>{
             body:body
           },
           topic: "SOS",
+          data:{
+            title:title,
+            body:body
+          }
     // token:"dLEQ0VuLSy-wZyE7fbgdgf:APA91bHnVei6Hv_eNMnLElORqLEVWFjD9g-k-wChUzGiSxMNak48lRf3ViM5hIFheH_u7m6LcYkpg60hCbYY7d5JLUQOKkCGGmhD3zAi2gMYpuzSHxcnh-oC5f1ZYBI5D2kPVncMVUBc",
   })
   res.send({status:200,message:"OK"});
