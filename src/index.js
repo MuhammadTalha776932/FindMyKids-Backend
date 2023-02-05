@@ -56,11 +56,12 @@ app.get("/users/child/notifications",(req,res)=>{
 app.post("/users/child/notifications", (req,res)=>{
   let title =  req.body?.title;
   let body =  req.body?.body; 
+  let coords = req.body?.coords;
   console.log(title,body);
      admin.messaging().send({
           notification: {
             title:`${title}`,
-            body:`${body}`
+            body:`${body} + ${coords}`
           },
           topic: "SOS"
     // token:"dLEQ0VuLSy-wZyE7fbgdgf:APA91bHnVei6Hv_eNMnLElORqLEVWFjD9g-k-wChUzGiSxMNak48lRf3ViM5hIFheH_u7m6LcYkpg60hCbYY7d5JLUQOKkCGGmhD3zAi2gMYpuzSHxcnh-oC5f1ZYBI5D2kPVncMVUBc",
