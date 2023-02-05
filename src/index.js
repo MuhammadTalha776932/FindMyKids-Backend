@@ -57,7 +57,7 @@ app.post("/users/child/notifications", (req,res)=>{
   let title =  req.body?.title;
   let body =  req.body?.body; 
   let coords = req.body?.coords;
-  console.log(title,body);
+  console.log(title,body,coords);
      admin.messaging().send({
           notification: {
             title:`${title}`,
