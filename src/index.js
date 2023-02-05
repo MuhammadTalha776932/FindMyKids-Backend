@@ -46,11 +46,11 @@ app.get("/users/child/notifications",(req,res)=>{
   res.status(200);
 })
 
-app.post("/users/child/notifications", async(req,res)=>{
-  let title = await req.body?.data?.title;
-  let body = await req.body?.data?.body; 
+app.post("/users/child/notifications", (req,res)=>{
+  let title =  req.body?.data?.title;
+  let body =  req.body?.data?.body; 
   console.log(title,body);
-    await admin.messaging().send({
+     admin.messaging().send({
           android:{
             notification:{
               title:`${title}`,
