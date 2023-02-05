@@ -47,12 +47,22 @@ app.get("/users/child/notifications",(req,res)=>{
 })
 
 app.post("/users/child/notifications", async(req,res)=>{
-  let title = req.body?.data?.title;
-  let body = req.body?.data?.body; 
+  let title = await req.body?.data?.title;
+  let body = await req.body?.data?.body; 
+  console.log(title,body);
     await admin.messaging().send({
+          android:{
+            notification:{
+              title:`${title}`,
+              body:`${body}`
+            },
+            data:{
+              title:`${title}`,
+              body:`${body}`
+            }
+          },
+          fcmOptions:{},
           notification: {
-            title:`${title}`,
-            body:`${body}`
           },
           topic: "SOS",
           data:{
