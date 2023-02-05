@@ -48,7 +48,7 @@ app.get("/users/child/notifications",(req,res)=>{
 
 app.post("/users/child/notifications",(req,res)=>{
   const {data} = req.body;
-  const {notification,topic} = data;
+  const {notification,topic} = data.notificationMessage;
   admin.messaging().send({
     notifications,
     topic
