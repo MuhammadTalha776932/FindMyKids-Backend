@@ -54,8 +54,8 @@ app.get("/users/child/notifications",(req,res)=>{
 })
 
 app.post("/users/child/notifications", (req,res)=>{
-  let title =  req.body?.data?.title;
-  let body =  req.body?.data?.body; 
+  let title =  req.body?.title;
+  let body =  req.body?.body; 
   console.log(title,body);
      admin.messaging().send({
           android:{
