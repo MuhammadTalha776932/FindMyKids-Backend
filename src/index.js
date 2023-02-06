@@ -16,63 +16,54 @@ import {
   where,
 } from "firebase/firestore";
 
-import {
-  createUserWithEmailAndPassword,
-  signOut,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-
 import admin from "firebase-admin";
 import serviceAccount from "./Muhammad_Talha/findmykids-c93cf-firebase-adminsdk-mh10z-914e5a4aec.json" assert { type: "json" };
 
-
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
 });
 
 const app = express();
 
 app.use(express.json());
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 // Handling requests targeting all users //
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
   res.json({
-    message:"Test the other"
-  })
-})
+    message: "Test the other",
+  });
+});
 
-
-app.get("/users/child/notifications",(req,res)=>{
+app.get("/users/child/notifications", (req, res) => {
   res.status(200);
-})
+});
 
-app.post("/users/child/notifications", (req,res)=>{
-  let title =  req.body?.title;
-  let body =  req.body?.body; 
-  let coords = req.body?.coords;
-  console.log(title,body,coords);
-     admin.messaging().send({
-          notification: {
-            title:`${title}`,
-            body:`${body} + ${coords}`
-          },
-          topic: "SOS",
-          data:{
-            title:`${title}`,
-            body:`${body} + ${coords}`
-          },
-          fcmOptions:{}
+app.post("/users/child/notifications", (req, res) => {
+  let title = req.body?.title;
+  let body = req.body?.body;
+  console.log(title, body);
+  admin.messaging().send({
+    notification: {
+      title: `${title}`,
+      body: `${body}`,
+    },
+    topic: "SOS",
+    data: {
+      title: `${title}`,
+      body: `${body}`,
+    },
+    fcmOptions: {},
+
     // token:"dLEQ0VuLSy-wZyE7fbgdgf:APA91bHnVei6Hv_eNMnLElORqLEVWFjD9g-k-wChUzGiSxMNak48lRf3ViM5hIFheH_u7m6LcYkpg60hCbYY7d5JLUQOKkCGGmhD3zAi2gMYpuzSHxcnh-oC5f1ZYBI5D2kPVncMVUBc",
-  })
-  res.send({status:200,message:"OK"});
-})
-
+  });
+  res.send({ status: 200, message: "OK" });
+});
 
 app.get("/users", async (req, res) => {
   const users = [];
@@ -87,23 +78,6 @@ app.get("/users", async (req, res) => {
   });
 });
 
-// get child data using USERS id.
-app.get("/users/:id/childs", (req, res) => {
-  const userID = req.params.id;
-  const colRef = collection(db, "users", userID, "childs");
-  const q = query(colRef, where("secCode", "==", "1Y2AD"));
-
-  const users = [];
-
-  getDocs(q).then((result) => {
-    const users = [];
-    result.docs.forEach((doc) => {
-      let data = doc.data();
-      users.push({ id: doc.id, ...data });
-    });
-    res.send(users);
-  });
-});
 // new coordinate update route
 app.post("/users/coordinate", async (req, res) => {
   const secCode = req.body.data.code;
@@ -143,8 +117,8 @@ app.post("/users/coordinate", async (req, res) => {
 });
 
 app.post("/users", async (req, res) => {
-  const uEmail = req.body.data.email;
-  const id = req.body.data.uid;
+  const uEmail = req.body.data?.user?.email || "";
+  const id = req.body.data?.user?.uid || "";
   const deviceID = req.body.data.deviceID;
   const code = req.body.data.rand;
 
