@@ -104,7 +104,7 @@ app.get("/users/:id/childs", (req, res) => {
     res.send(users);
   });
 });
-
+// new coordinate update route
 app.post("/users/coordinate", async (req, res) => {
   const secCode = req.body.data.code;
   let i = 0;
