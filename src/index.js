@@ -82,7 +82,8 @@ app.get("/:deviceID", async (req, res) => {
 app.post("/users/coordinate", async (req, res) => {
   const secCode = await req.body?.data?.code;
   let i = 0;
-  const { latitude, longitude } = await req.body?.data;
+  const { latitude, longitude, accuracy, altitude, heading, speed } = await req
+    .body?.data;
   console.log("====> " + ++i, latitude, longitude);
   const docRef = doc(db, "childs", secCode);
   const docSnap = await getDoc(docRef);
@@ -98,10 +99,18 @@ app.post("/users/coordinate", async (req, res) => {
         init_coordinate: {
           latitude: latitude,
           longitude: longitude,
+          accuracy: accuracy,
+          altitude: altitude,
+          heading: heading,
+          speed: speed,
         },
         curr_coordinate: {
           latitude: latitude,
           longitude: longitude,
+          accuracy: accuracy,
+          altitude: altitude,
+          heading: heading,
+          speed: speed,
         },
       });
       res.send({ status: 200, message: "Done" });
@@ -112,6 +121,10 @@ app.post("/users/coordinate", async (req, res) => {
         curr_coordinate: {
           latitude: latitude,
           longitude: longitude,
+          accuracy: accuracy,
+          altitude: altitude,
+          heading: heading,
+          speed: speed,
         },
       });
       res.send({ status: 200, message: "Coordinates Updated" });
