@@ -136,9 +136,10 @@ app.post("/users", async (req, res) => {
     const docRef = doc(db, "parents", id);
     const docSnap = await getDoc(docRef);
 
+    // if parent exists
     if (docSnap.exists()) {
       getDoc(docRef).then((response) => {
-        const childRef = response?.data()?.child;
+        const childRef = response?.data()?.code;
         const colRef = doc(db, "childs", childRef);
         getDoc(colRef).then((response) => {
           res.send(response.data());
