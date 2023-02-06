@@ -104,14 +104,17 @@ app.post("/users/coordinate", async (req, res) => {
           longitude: longitude,
         },
       });
+      res.send({ status: 200, message: "Done" });
     } else {
       setDoc(docRef, {
         ...docSnap.data(),
+        code: secCode,
         curr_coordinate: {
           latitude: latitude,
           longitude: longitude,
         },
       });
+      res.send({ status: 200, message: "Coordinates Updated" });
     }
   }
 });
