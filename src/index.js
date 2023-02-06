@@ -65,7 +65,7 @@ app.post("/users/child/notifications", (req, res) => {
   res.send({ status: 200, message: "OK" });
 });
 
-app.get("/users", async (req, res) => {
+app.get("/:deviceID", async (req, res) => {
   const users = [];
   const colRef = collection(db, req.params.deviceID);
   getDocs(colRef).then((result) => {
@@ -80,13 +80,13 @@ app.get("/users", async (req, res) => {
 
 // new coordinate update route
 app.post("/users/coordinate", async (req, res) => {
-  const secCode = req.body.data.code;
+  const secCode = await req.body?.data?.code;
   let i = 0;
-  const { latitude, longitude } = req.body.data;
+  const { latitude, longitude } = await req.body?.data;
   console.log("====> " + ++i, latitude, longitude);
   const docRef = doc(db, "childs", secCode);
   const docSnap = await getDoc(docRef);
-  if (docSnap.exists) {
+  if (docSnap.exists()) {
     console.log(docSnap.data());
     let data = docSnap.data();
 
@@ -104,14 +104,17 @@ app.post("/users/coordinate", async (req, res) => {
           longitude: longitude,
         },
       });
+      res.send({ status: 200, message: "Done" });
     } else {
       setDoc(docRef, {
         ...docSnap.data(),
+        code: secCode,
         curr_coordinate: {
           latitude: latitude,
           longitude: longitude,
         },
       });
+      res.send({ status: 200, message: "Coordinates Updated" });
     }
   }
 });
@@ -133,7 +136,7 @@ app.post("/users", async (req, res) => {
     const docRef = doc(db, "parents", id);
     const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists) {
+    if (docSnap.exists()) {
       getDoc(docRef).then((response) => {
         const childRef = response?.data()?.child;
         const colRef = doc(db, "childs", childRef);
@@ -142,24 +145,19 @@ app.post("/users", async (req, res) => {
         });
       });
     } else {
-      addDoc(docRef, data).then(res.send({ status: 200, message: "OK" }));
+      setDoc(docRef, data).then(res.send({ status: 200, message: "OK" }));
     }
   } else if (deviceID == "Child") {
-    const docRef = doc(db, "childs", code);
+    console.log("Enter into if");
+    const docRef = doc(db, "childs", "12234");
     const childSnapDoc = await getDoc(docRef);
-    if (childSnapDoc.exists) {
-      addDoc(docRef, data).then(res.send({ status: 200, message: "OK" }));
-      res.send({
-        status: 200,
-        message: "Child Device information insert into Childs collections",
-      });
+    if (!childSnapDoc.exists()) {
+      console.log("Enter into Exist if");
+      setDoc(docRef, data).then(res.send({ status: 200, message: "OK" }));
       console.log("Child Device information insert into Childs collections");
-      return;
+    } else {
+      console.log("User already exists");
     }
-    res.send({
-      status: 200,
-      message: "Already Exists",
-    });
   }
 });
 
