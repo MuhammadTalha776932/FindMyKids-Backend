@@ -148,15 +148,12 @@ app.post("/users", async (req, res) => {
       setDoc(docRef, data).then(res.send({ status: 200, message: "OK" }));
     }
   } else if (deviceID == "Child") {
-    console.log("Enter into if");
-    const docRef = doc(db, "childs", "12234");
+    const docRef = doc(db, "childs", code);
     const childSnapDoc = await getDoc(docRef);
     if (!childSnapDoc.exists()) {
-      console.log("Enter into Exist if");
       setDoc(docRef, data).then(res.send({ status: 200, message: "OK" }));
-      console.log("Child Device information insert into Childs collections");
     } else {
-      console.log("User already exists");
+      res.send({ status: 200, message: "Alrady exists" });
     }
   }
 });
