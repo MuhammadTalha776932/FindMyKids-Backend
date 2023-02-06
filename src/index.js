@@ -120,19 +120,20 @@ app.post("/users", async (req, res) => {
   const uEmail = req.body.data?.user?.email || "";
   const id = req.body.data?.user?.uid || "";
   const deviceID = req.body.data.deviceID;
-  const code = req.body.data.rand;
+  const code = req.body.data.code;
 
   const data = {
     email: uEmail,
     deviceID: deviceID,
     uid: id,
+    code: code,
   };
 
   if (deviceID == "Parent") {
     const docRef = doc(db, "parents", id);
     const docSnap = await getDoc(docRef);
 
-    if ((await getDoc()).exists) {
+    if (docSnap.exists) {
       getDoc(docRef).then((response) => {
         const childRef = response?.data()?.child;
         const colRef = doc(db, "childs", childRef);
@@ -141,11 +142,24 @@ app.post("/users", async (req, res) => {
         });
       });
     } else {
-      console.log("No such document!");
+      addDoc(docRef, data).then(res.send({ status: 200, message: "OK" }));
     }
   } else if (deviceID == "Child") {
     const docRef = doc(db, "childs", code);
-    setDoc(docRef, data).then((response) => console.log(response));
+    const childSnapDoc = await getDoc(docRef);
+    if (childSnapDoc.exists) {
+      addDoc(docRef, data).then(res.send({ status: 200, message: "OK" }));
+      res.send({
+        status: 200,
+        message: "Child Device information insert into Childs collections",
+      });
+      console.log("Child Device information insert into Childs collections");
+      return;
+    }
+    res.send({
+      status: 200,
+      message: "Already Exists",
+    });
   }
 });
 
