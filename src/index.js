@@ -1,5 +1,7 @@
 import { db } from "./firebase.config.js";
 import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
 import {
   addDoc,
   collection,
@@ -14,9 +16,28 @@ import {
   where,
 } from "firebase/firestore";
 
+import {
+  createUserWithEmailAndPassword,
+  signOut,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+
+import admin from "firebase-admin";
+import serviceAccount from "./Muhammad_Talha/findmykids-c93cf-firebase-adminsdk-mh10z-914e5a4aec.json" assert { type: "json" };
+
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
 const app = express();
 
 app.use(express.json());
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 // Handling requests targeting all users //
 
@@ -31,16 +52,25 @@ app.get("/users/child/notifications",(req,res)=>{
   res.status(200);
 })
 
-app.post("/users/child/notifications",(req,res)=>{
-  const {data} = req.body;
-  const {notification,topic} = data;
-  admin.messaging().send({
-    notification:{
-      ...notification
-    },
-    topic:topic,
+app.post("/users/child/notifications", (req,res)=>{
+  let title =  req.body?.title;
+  let body =  req.body?.body; 
+  let coords = req.body?.coords;
+  console.log(title,body,coords);
+     admin.messaging().send({
+          notification: {
+            title:`${title}`,
+            body:`${body} + ${coords}`
+          },
+          topic: "SOS",
+          data:{
+            title:`${title}`,
+            body:`${body} + ${coords}`
+          },
+          fcmOptions:{}
     // token:"dLEQ0VuLSy-wZyE7fbgdgf:APA91bHnVei6Hv_eNMnLElORqLEVWFjD9g-k-wChUzGiSxMNak48lRf3ViM5hIFheH_u7m6LcYkpg60hCbYY7d5JLUQOKkCGGmhD3zAi2gMYpuzSHxcnh-oC5f1ZYBI5D2kPVncMVUBc",
   })
+  res.send({status:200,message:"OK"});
 })
 
 
@@ -80,9 +110,7 @@ app.post("/users/coordinate", async (req, res) => {
   let i = 0;
   const { latitude, longitude } = req.body.data;
   console.log("====> " + ++i, latitude, longitude);
-
   const docRef = doc(db, "childs", secCode);
-
   const docSnap = await getDoc(docRef);
   if (docSnap.exists) {
     console.log(docSnap.data());

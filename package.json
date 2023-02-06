@@ -5,13 +5,15 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev":"nodemon src/Muhammad_Talha/index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/Muhammad_Talha/index.js"
   },
   "author": "Yasir",
   "license": "ISC",
   "dependencies": {
     "@types/firebase": "^3.2.1",
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "firebase": "^9.16.0",
     "firebase-admin": "^11.5.0"
