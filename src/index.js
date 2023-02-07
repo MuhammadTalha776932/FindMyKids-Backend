@@ -65,19 +65,6 @@ app.post("/users/child/notifications", (req, res) => {
   res.send({ status: 200, message: "OK" });
 });
 
-app.get("/:deviceID", async (req, res) => {
-  const users = [];
-  const colRef = collection(db, req.params.deviceID);
-  getDocs(colRef).then((result) => {
-    const users = [];
-    result.docs.forEach((doc) => {
-      let data = doc.data();
-      users.push({ id: doc.id, ...data });
-    });
-    res.send(users);
-  });
-});
-
 // new coordinate update route
 app.post("/users/coordinate", async (req, res) => {
   const secCode = await req.body?.data?.code;
@@ -168,6 +155,29 @@ app.post("/users", async (req, res) => {
       setDoc(docRef, data).then(res.send({ status: 200, message: "OK" }));
     } else {
       res.send({ status: 200, message: "Alrady exists" });
+    }
+  }
+});
+
+app.get("/users", async (req, res) => {
+  const id = req.body.data?.user?.uid || "";
+  const deviceID = req.body.data.deviceID;
+
+  console.log(id);
+  console.log(deviceID);
+  if (deviceID == "Parent") {
+    const docRef = doc(db, "parents", id);
+    const docSnap = await getDoc(docRef);
+
+    // if parent exists
+    if (docSnap.exists()) {
+      getDoc(docRef).then((response) => {
+        const childRef = response?.data()?.code;
+        const colRef = doc(db, "childs", childRef);
+        getDoc(colRef).then((response) => {
+          res.send(response.data());
+        });
+      });
     }
   }
 });
