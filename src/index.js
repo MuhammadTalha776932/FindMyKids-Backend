@@ -159,9 +159,9 @@ app.post("/users", async (req, res) => {
   }
 });
 
-app.get("/users", async (req, res) => {
-  const id = req.params?.user?.uid || "";
-  const deviceID = req.params.deviceID;
+app.get("/coordinate", async (req, res) => {
+  const id = req.body?.user?.uid || "";
+  const deviceID = req.body.deviceID;
 
   console.log(id);
   console.log(deviceID);
