@@ -168,9 +168,11 @@ app.get("/coordinate", async (req, res) => {
   if (deviceID == "Parent") {
     const docRef = doc(db, "parents", id);
     const docSnap = await getDoc(docRef);
-
+    console.log("coordinate/ if");
     // if parent exists
     if (docSnap.exists()) {
+      console.log("coordinate/ exist if");
+
       getDoc(docRef).then((response) => {
         const childRef = response?.data()?.code;
         const colRef = doc(db, "childs", childRef);
