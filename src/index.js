@@ -161,7 +161,7 @@ app.post("/users", async (req, res) => {
 
 app.get("/users", async (req, res) => {
   const id = req.body.data?.user?.uid || "";
-  const deviceID = req.body.data.deviceID;
+  const deviceID = req.body.deviceID;
 
   console.log(id);
   console.log(deviceID);
