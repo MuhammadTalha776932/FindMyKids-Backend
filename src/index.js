@@ -160,8 +160,8 @@ app.post("/users", async (req, res) => {
 });
 
 app.get("/users", async (req, res) => {
-  const id = req.body.data?.user?.uid || "";
-  const deviceID = req.body.deviceID;
+  const id = req.body?.params?.user?.uid || "";
+  const deviceID = req.body.params.deviceID;
 
   console.log(id);
   console.log(deviceID);
