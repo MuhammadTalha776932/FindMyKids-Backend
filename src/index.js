@@ -125,14 +125,14 @@ app.post("/users", async (req, res) => {
   const id = req.body.data?.user?.uid || "";
   const deviceID = req.body.data.deviceID;
   const code = req.body.data.code;
-  // const isPaired = req.body.data.isPaired;  // will be included in future
+  const isPaired = req.body.data.isPaired; // will be included in future
 
   const data = {
     email: uEmail,
     deviceID: deviceID,
     uid: id,
     code: code,
-    //isPaired: false,
+    isPaired: false,
   };
 
   if (deviceID == "Parent") {
