@@ -18,6 +18,7 @@ import {
 
 import admin from "firebase-admin";
 import serviceAccount from "./Muhammad_Talha/findmykids-c93cf-firebase-adminsdk-mh10z-914e5a4aec.json" assert { type: "json" };
+import { validatePairing } from "./validatePairing.js";
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -124,12 +125,14 @@ app.post("/users", async (req, res) => {
   const id = req.body.data?.user?.uid || "";
   const deviceID = req.body.data.deviceID;
   const code = req.body.data.code;
+  const isPaired = req.body.data.isPaired; // will be included in future
 
   const data = {
     email: uEmail,
     deviceID: deviceID,
     uid: id,
     code: code,
+    isPaired: false,
   };
 
   if (deviceID == "Parent") {
@@ -152,7 +155,16 @@ app.post("/users", async (req, res) => {
     const docRef = doc(db, "childs", code);
     const childSnapDoc = await getDoc(docRef);
     if (!childSnapDoc.exists()) {
-      setDoc(docRef, data).then(res.send({ status: 200, message: "OK" }));
+      setDoc(docRef, data).then((response) => {
+        if (response) {
+          validatePairing(code).then((response) => {
+            setTimeout(() => {
+              res.send(response);
+            }, 3000);
+          });
+        }
+      });
+      //change parent field isPaired to true.. Write code below
     } else {
       res.send({ status: 200, message: "Alrady exists" });
     }
@@ -182,6 +194,16 @@ app.post("/coordinate", async (req, res) => {
       });
     }
   }
+});
+
+app.get("/test", async (req, res) => {
+  const code = "A!b024";
+  let response = await validatePairing(code).then((response) => {
+    console.log("Success");
+    setTimeout(() => {
+      res.send(response);
+    }, 3000);
+  });
 });
 
 app.listen(4000, () => {
