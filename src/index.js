@@ -151,7 +151,9 @@ app.post("/users", async (req, res) => {
         });
       });
     } else {
-      setDoc(docRef, data).then(res.send({ status: 200, message: "OK" }));
+      setDoc(docRef, data).then(
+        res.send({ status: 200, message: "OK", email: uEmail, code })
+      );
     }
   } else if (deviceID == "Child") {
     const docRef = doc(db, "childs", code);
