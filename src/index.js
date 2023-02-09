@@ -156,7 +156,8 @@ app.post("/users", async (req, res) => {
       );
     }
   } else if (deviceID == "Child") {
-    const docRef = doc(db, "childs", code);
+    const c_code = req.body?.data?.code;
+    const docRef = doc(db, "childs", c_code);
     const childSnapDoc = await getDoc(docRef);
     if (!childSnapDoc.exists()) {
       setDoc(docRef, data).then((response) => {
