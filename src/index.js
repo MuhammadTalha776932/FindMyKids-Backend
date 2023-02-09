@@ -19,6 +19,7 @@ import {
 import admin from "firebase-admin";
 import serviceAccount from "./Muhammad_Talha/findmykids-c93cf-firebase-adminsdk-mh10z-914e5a4aec.json" assert { type: "json" };
 import { validatePairing } from "./validatePairing.js";
+import { generateCode } from "./generateCode.js";
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -124,8 +125,9 @@ app.post("/users", async (req, res) => {
   const uEmail = req.body.data?.user?.email || "";
   const id = req.body.data?.user?.uid || "";
   const deviceID = req.body.data.deviceID;
-  const code = req.body.data.code;
-  const isPaired = req.body.data.isPaired; // will be included in future
+  const isPaired = req.body.data.isPaired;
+
+  const code = generateCode();
 
   const data = {
     email: uEmail,
