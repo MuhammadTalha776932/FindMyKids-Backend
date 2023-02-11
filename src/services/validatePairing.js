@@ -7,7 +7,7 @@ import {
   doc,
   getDoc,
 } from "firebase/firestore";
-import { db } from "./firebase.config.js";
+import { db } from "../configs/firebase.config.js";
 
 export const validatePairing = async (code) => {
   const colRef = collection(db, "parents");
