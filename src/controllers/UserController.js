@@ -60,6 +60,13 @@ export const handlePostUser =  async (req, res) => {
       const docRef = doc(db, "childs", c_code);
       const childSnapDoc = await getDoc(docRef);
       if (!childSnapDoc.exists()) {
+        const data = {
+          email: uEmail,
+          deviceID: deviceID,
+          uid: id,
+          code: code,
+          isPaired: true,
+        };
         setDoc(docRef, data).then((response) => {
           if (response) {
             validatePairing(code).then((response) => {
@@ -71,7 +78,7 @@ export const handlePostUser =  async (req, res) => {
         });
         //change parent field isPaired to true.. Write code below
       } else {
-        res.send({ status: 200, message: "Alrady exists" });
+        res.send({ status: 200, message: "Already exists" });
       }
     }
   }
