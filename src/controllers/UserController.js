@@ -1,5 +1,6 @@
 import { db } from "../configs/firebase.config.js";
 import { generateCode } from "../services/generateCode.js";
+import { validatePairing } from "../services/validatePairing.js";
 
 import {
     addDoc,
