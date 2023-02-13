@@ -1,5 +1,19 @@
 import { db } from "../configs/firebase.config.js";
 
+import {
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDoc,
+    getDocs,
+    onSnapshot,
+    query,
+    setDoc,
+    updateDoc,
+    where,
+  } from "firebase/firestore";
+
 export const handleGetCoordinate = async (req, res) => {
   res.send({ status: 200, message: "DONE" });
 };
