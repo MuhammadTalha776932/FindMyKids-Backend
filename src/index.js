@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 
-import { validatePairing } from "./services/validatePairing.js";
 import { notificationRoutes } from "./routes/NotificationRoutes.js";
 import { userRoutes } from "./routes/UserRoutes.js";
 import { childRouter } from "./routes/CoordinateRoutes.js";
