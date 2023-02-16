@@ -1,8 +1,8 @@
 import express from "express";
 
-export const defaultRoutes = express.Router();
+export const defaultRouter = express.Router();
 
-defaultRoutes.get("/", (req, res) => {
+defaultRouter.get("/", (req, res) => {
   res.json({
     message: "Test the other",
   });
