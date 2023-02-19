@@ -1,7 +1,10 @@
 import express from "express";
-import { handleGetNotification, handlePostNotification } from "../controllers/NotificationController.js";
+import {
+  handleGetNotification,
+  handlePostNotification,
+} from "../controllers/NotificationController.js";
 
-export const notificationRoutes = express.Router();
+export const notificationRouter = express.Router();
 
-notificationRoutes.get("/", handleGetNotification);
-notificationRoutes.post("/",handlePostNotification);
+notificationRouter.get("/", handleGetNotification);
+notificationRouter.post("/", handlePostNotification);

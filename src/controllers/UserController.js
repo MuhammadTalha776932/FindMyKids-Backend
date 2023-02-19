@@ -1,25 +1,11 @@
 import { db } from "../configs/firebase.config.js";
 import { generateCode } from "../services/generateCode.js";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { validatePairing } from "../services/validatePairing.js";
 
-import {
-    addDoc,
-    collection,
-    deleteDoc,
-    doc,
-    getDoc,
-    getDocs,
-    onSnapshot,
-    query,
-    setDoc,
-    updateDoc,
-    where,
-  } from "firebase/firestore";
-
-
-export const handleGetUser = async(req,res)=>{
-    res.send({status:200,message:"Done || OK"});
-}
+export const handleGetUser = async (req, res) => {
+  res.send({ status: 200, message: "Done || OK" });
+};
 
 export const handlePostUser =  async (req, res) => {
     const uEmail = req.body.data?.user?.email || "";
@@ -82,3 +68,4 @@ export const handlePostUser =  async (req, res) => {
       }
     }
   }
+};
