@@ -14,17 +14,18 @@ export const validatePairing = async (code) => {
   const q = query(colRef, where("code", "==", code));
   let arr = [];
 
-// child collection document isPaired updates
-  const childRef = doc(db,"childs",code);
-  getDoc(childRef).then(childDoc => {
-    if (childDoc) {
-      setDoc(childRef,{
-        ...childDoc,
-        isPaired:true
-      })
-    }
-  }).catch(error => console.log(error?.message));
-// End
+  // child collection document isPaired updates
+  const childRef = doc(db, "childs", code);
+  getDoc(childRef)
+    .then((childDoc) => {
+      if (childDoc) {
+        setDoc(childRef, {
+          ...childDoc,
+        });
+      }
+    })
+    .catch((error) => console.log(error?.message));
+  // End
 
   getDocs(q).then((response) => {
     response.forEach(async (e) => {
