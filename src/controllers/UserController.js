@@ -50,7 +50,7 @@ export const handlePostUser = async (req, res) => {
         email: uEmail,
         deviceID: deviceID,
         uid: id,
-        code: code,
+        code: c_code,
         isPaired: true,
       };
       setDoc(docRef, data).then((response) => {
