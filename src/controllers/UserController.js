@@ -53,16 +53,9 @@ export const handlePostUser = async (req, res) => {
         code: c_code,
         isPaired: true,
       };
-      setDoc(docRef, data).then((response) => {
-        if (response) {
-          validatePairing(code).then((response) => {
-            setTimeout(() => {
-              res.send(response);
-            }, 3000);
-          });
-        }
-      });
-      //change parent field isPaired to true.. Write code below
+      await setDoc(docRef, data);
+      const response = await validatePairing(c_code);
+      await res.send(response);
     } else {
       res.send({ status: 200, message: "Already exists" });
     }
