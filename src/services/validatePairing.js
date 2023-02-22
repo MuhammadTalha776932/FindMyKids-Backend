@@ -16,8 +16,7 @@ export const validatePairing = async (code) => {
   let arr = [];
 
   const response = await getDocs(q);
-  const arrs = response.docs.map(async (e) => {
-    // response.forEach(async (e) => {
+  for (const e of response.docs) {
     const id = e.data().uid;
     const parentRef = doc(db, "parents", id);
     const parentSnap = await getDoc(parentRef);
@@ -26,13 +25,9 @@ export const validatePairing = async (code) => {
         ...parentSnap.data(),
         isPaired: true,
       });
-      // console.log(parentSnap.data());
-      arr.push(parentSnap.data());
-      return parentSnap.data();
+      const parentSnap1 = await getDoc(parentRef);
+      arr.push(parentSnap1.data());
     }
-    // });
-  });
-
-  // console.log(arr);
+  }
   return arr;
 };

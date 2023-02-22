@@ -55,11 +55,7 @@ export const handlePostUser = async (req, res) => {
       };
       await setDoc(docRef, data);
       const response = await validatePairing(c_code);
-
-      setTimeout(async () => {
-        // console.log("Response:", response);
-        await res.send(response);
-      }, 5000);
+      await res.send(response);
     } else {
       res.send({ status: 200, message: "Already exists" });
     }
