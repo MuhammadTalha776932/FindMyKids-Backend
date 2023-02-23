@@ -37,6 +37,7 @@ export const handlePostUser = async (req, res) => {
     const docRef = doc(db, "parents", id);
     const docSnap = await getDoc(docRef);
 
+    let arr = [];
     // If Parent exists, send back the paired CHILD & if not exists add the Parent in the firebase.
     if (docSnap.exists()) {
       getDoc(docRef).then((response) => {
@@ -45,9 +46,9 @@ export const handlePostUser = async (req, res) => {
           for (const codes of childRef) {
             const colRef = doc(db, "childs", codes);
             let response = getDoc(colRef).then(documents => documents.data())
-            response.then(childDoc => console.log(childDoc));
+            response.then(childDoc => arr.push(childDoc.data()));
           }
-          // res.send(response.data());
+          res.send(arr);
         } else {
           const colRef = doc(db, "childs", childRef);
           getDoc(colRef).then((response) => {
