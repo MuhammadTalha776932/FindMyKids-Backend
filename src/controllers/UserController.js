@@ -84,7 +84,7 @@ export const handlePostUser = async (req, res) => {
       await res.send(response);
     } else {
       const colRef = collection(db, "parents");
-      const q = query(colRef, where("code", "==", c_code));
+      const q = query(colRef, where("code[0]", "==", c_code));
       const response = await getDocs(q);
       const obj = response.docs[0];
       res.send([
