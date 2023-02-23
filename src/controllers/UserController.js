@@ -40,7 +40,7 @@ export const handlePostUser = async (req, res) => {
 
     // If Parent exists, send back the paired CHILD & if not exists add the Parent in the firebase.
     if (docSnap.exists()) {
-      getDoc(docRef).then((response) => {
+      await getDoc(docRef).then((response) => {
         const childRef = response?.data()?.code;
         if (typeof childRef === "object") {
           for (const codes of childRef) {
