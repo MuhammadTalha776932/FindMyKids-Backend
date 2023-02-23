@@ -1,11 +1,21 @@
 import { db } from "../configs/firebase.config.js";
 import { generateCode } from "../services/generateCode.js";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { validatePairing } from "../services/validatePairing.js";
 
 export const handleGetUser = async (req, res) => {
   res.send({ status: 200, message: "Done || OK" });
 };
+
+// Handling login/sign up request for parent and child
 
 export const handlePostUser = async (req, res) => {
   const uEmail = req.body.data?.user?.email || "";
@@ -27,7 +37,7 @@ export const handlePostUser = async (req, res) => {
     const docRef = doc(db, "parents", id);
     const docSnap = await getDoc(docRef);
 
-    // if parent exists
+    // If Parent exists, send back the paired CHILD & if not exists add the Parent in the firebase.
     if (docSnap.exists()) {
       getDoc(docRef).then((response) => {
         const childRef = response?.data()?.code;
@@ -41,6 +51,9 @@ export const handlePostUser = async (req, res) => {
         res.send({ status: 200, message: "OK", email: uEmail, code })
       );
     }
+
+    //If the CHILD does NOT exist, add the CHILD info in the firebase and also update isPaired value of its parent to TRUE
+    //& if CHILD do exists send back MSG: "Already exists" as well as its parents code, isPaired value
   } else if (deviceID == "Child") {
     const c_code = req.body?.data?.code;
     const docRef = doc(db, "childs", c_code);
@@ -57,7 +70,17 @@ export const handlePostUser = async (req, res) => {
       const response = await validatePairing(c_code);
       await res.send(response);
     } else {
-      res.send({ status: 200, message: "Already exists" });
+      const colRef = collection(db, "parents");
+      const q = query(colRef, where("code", "==", c_code));
+      const response = await getDocs(q);
+      const obj = response.docs[0];
+      res.send({
+        status: 200,
+        message: "Already exists",
+        deviceID: obj.data().deviceID,
+        code: obj.data().code,
+        isPaired: obj.data().isPaired,
+      });
     }
   }
 };

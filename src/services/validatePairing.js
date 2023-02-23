@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import {
   collection,
   query,
@@ -10,6 +9,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../configs/firebase.config.js";
 
+// Making isPaired TRUE on both parent and child sides. ***When the child logs in, it means it has paired to parent.***
 export const validatePairing = async (code) => {
   const colRef = collection(db, "parents");
   const q = query(colRef, where("code", "==", code));
