@@ -1,10 +1,10 @@
 import express from "express";
-export const userRoutes = express.Router();
 import {
   handleGetUser,
-  handlePostUser
+  handlePostUser,
 } from "../controllers/UserController.js";
 
+export const userRouter = express.Router();
 
-userRoutes.get("/", handleGetUser);
-userRoutes.post("/", handlePostUser);
+userRouter.get("/", handleGetUser);
+userRouter.post("/", handlePostUser);
