@@ -41,10 +41,19 @@ export const handlePostUser = async (req, res) => {
     if (docSnap.exists()) {
       getDoc(docRef).then((response) => {
         const childRef = response?.data()?.code;
-        const colRef = doc(db, "childs", childRef);
-        getDoc(colRef).then((response) => {
+        if (typeof childRef === "object") {
+          for (const codes of object) {
+            const colRef = doc(db, "childs", codes);
+            let response = getDoc(colRef).then(documents => documents.data())
+            response.then(childDoc => console.log(childDoc));
+          }
           res.send(response.data());
-        });
+        } else {
+          const colRef = doc(db, "childs", childRef);
+          getDoc(colRef).then((response) => {
+            res.send(response.data());
+          });
+        }
       });
     } else {
       setDoc(docRef, data).then(
@@ -66,8 +75,8 @@ export const handlePostUser = async (req, res) => {
         deviceID: deviceID,
         uid: id,
         code: c_code,
-        name:name,
-        age:age,
+        name: name,
+        age: age,
         isPaired: true,
       };
       await setDoc(docRef, data);
@@ -78,13 +87,15 @@ export const handlePostUser = async (req, res) => {
       const q = query(colRef, where("code", "==", c_code));
       const response = await getDocs(q);
       const obj = response.docs[0];
-      res.send([{
-        status: 200,
-        message: "Already exists",
-        deviceID: obj.data().deviceID,
-        code: obj.data().code,
-        isPaired: obj.data().isPaired,
-      }]);
+      res.send([
+        {
+          status: 200,
+          message: "Already exists",
+          deviceID: obj.data().deviceID,
+          code: obj.data().code,
+          isPaired: obj.data().isPaired,
+        },
+      ]);
     }
   }
 };
