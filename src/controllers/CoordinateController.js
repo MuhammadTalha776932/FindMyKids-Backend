@@ -1,37 +1,24 @@
 import { db } from "../configs/firebase.config.js";
-
-import {
-    addDoc,
-    collection,
-    deleteDoc,
-    doc,
-    getDoc,
-    getDocs,
-    onSnapshot,
-    query,
-    setDoc,
-    updateDoc,
-    where,
-  } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export const handleGetCoordinate = async (req, res) => {
   res.send({ status: 200, message: "DONE" });
 };
 
+// CHILD will post location after sign in/sign up
+// If sent first time, update init and curr coordinates, else update curr_cordinates only.
 export const handlePostCoordinate = async (req, res) => {
   const secCode = await req.body?.data?.code;
-  let i = 0;
   const { latitude, longitude, accuracy, altitude, heading, speed } = await req
     .body?.data;
-  console.log("====> " + ++i, latitude, longitude);
+
   const docRef = doc(db, "childs", secCode);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
-    console.log(docSnap.data());
     let data = docSnap.data();
-
     let isExist = data["curr_coordinate"];
 
+    // If current coordinates not exist, set both init and curr coordinates
     if (!isExist) {
       setDoc(docRef, {
         ...docSnap.data(),
@@ -54,6 +41,7 @@ export const handlePostCoordinate = async (req, res) => {
       });
       res.send({ status: 200, message: "Done" });
     } else {
+      // If current coordinates not exist, set current coordinates only
       setDoc(docRef, {
         ...docSnap.data(),
         code: secCode,
@@ -70,4 +58,3 @@ export const handlePostCoordinate = async (req, res) => {
     }
   }
 };
-

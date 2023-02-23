@@ -2,9 +2,9 @@ import express from "express";
 import {
   handleGetLocation,
   handlePostLocation,
-} from "../controllers/LocationController.js";
+} from "../controllers/ChildLocationController.js";
 
-export const LocationRouter = express.Router();
+export const ChildLocationRouter = express.Router();
 
-LocationRouter.get("/coordinate", handleGetLocation);
-LocationRouter.post("/coordinate", handlePostLocation);
+ChildLocationRouter.get("/coordinate", handleGetLocation);
+ChildLocationRouter.post("/coordinate", handlePostLocation);
