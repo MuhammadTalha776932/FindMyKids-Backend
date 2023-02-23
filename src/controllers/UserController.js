@@ -42,7 +42,7 @@ export const handlePostUser = async (req, res) => {
       getDoc(docRef).then((response) => {
         const childRef = response?.data()?.code;
         if (typeof childRef === "object") {
-          for (const codes of object) {
+          for (const codes of childRef) {
             const colRef = doc(db, "childs", codes);
             let response = getDoc(colRef).then(documents => documents.data())
             response.then(childDoc => console.log(childDoc));
