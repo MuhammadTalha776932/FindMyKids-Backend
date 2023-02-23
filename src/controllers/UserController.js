@@ -48,7 +48,7 @@ export const handlePostUser = async (req, res) => {
         res.send({ status: 200, message: "OK", email: uEmail, code })
       );
     }
-    //SIGN IN: If the CHILD does NOT exist, add the CHILD info in the firebase and also update isPaired value of its parent to TRUE
+    //SIGN UP: If the CHILD does NOT exist, add the CHILD info in the firebase and also update isPaired value of its parent to TRUE
   } else if (deviceID == "Child") {
     const c_code = req.body?.data?.code;
     const docRef = doc(db, "childs", c_code);
@@ -65,7 +65,7 @@ export const handlePostUser = async (req, res) => {
       const response = await validatePairing(c_code); // Makes Parent isPaired: TRUE and returns the updated Parent Data
       await res.send(response);
     } else {
-      //SIGN UP if CHILD do exists send back MSG: "Already exists" as well as its parents code, isPaired value
+      //SIGN IN: if CHILD do exists send back MSG: "Already exists" as well as its parents code, isPaired value
       const colRef = collection(db, "parents");
       const q = query(colRef, where("code", "==", c_code));
       const response = await getDocs(q);
