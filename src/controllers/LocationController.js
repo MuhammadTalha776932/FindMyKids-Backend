@@ -18,12 +18,10 @@ export const handleGetLocation = async (req, res) => {
 };
 
 export const handlePostLocation = async (req, res) => {
-  const id = req.body?.data?.user?.uid || "";
-  const deviceID = req.body.deviceID;
+  const id = await req.body?.data?.user?.uid || "";
+  const deviceID = await req.body.deviceID;
 
   let arr = [];
-  console.log(id);
-  console.log(deviceID);
   if (deviceID == "Parent") {
     const docRef = doc(db, "parents", id);
     const docSnap = await getDoc(docRef);
@@ -39,6 +37,7 @@ export const handlePostLocation = async (req, res) => {
           let response = await getDoc(colRef).then(documents => documents.data())
           arr.push(response);
         }
+        res.send(arr);
       } else {
         const colRef = doc(db, "childs", childRef);
         getDoc(colRef).then((response) => {
