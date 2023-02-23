@@ -47,7 +47,7 @@ export const handlePostUser = async (req, res) => {
             let response = getDoc(colRef).then(documents => documents.data())
             response.then(childDoc => console.log(childDoc));
           }
-          res.send(response.data());
+          // res.send(response.data());
         } else {
           const colRef = doc(db, "childs", childRef);
           getDoc(colRef).then((response) => {
