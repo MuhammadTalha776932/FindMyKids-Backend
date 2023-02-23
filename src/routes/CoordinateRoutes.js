@@ -4,7 +4,7 @@ import {
   handlePostCoordinate,
 } from "../controllers/CoordinateController.js";
 
-export const coordinateRoutes = express.Router();
+export const coordinateRouter = express.Router();
 
-coordinateRoutes.get("/coordinate", handleGetCoordinate);
-coordinateRoutes.post("/coordinate", handlePostCoordinate);
+coordinateRouter.get("/coordinate", handleGetCoordinate);
+coordinateRouter.post("/coordinate", handlePostCoordinate);

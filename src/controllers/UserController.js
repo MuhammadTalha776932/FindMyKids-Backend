@@ -15,37 +15,27 @@ export const handleGetUser = async (req, res) => {
   res.send({ status: 200, message: "Done || OK" });
 };
 
-// Handling login/sign up request for parent and child
+// Handling SIGNIN / SIGNUP request for PARENT and CHILD.
 
 export const handlePostUser = async (req, res) => {
   const uEmail = req.body.data?.user?.email || "";
   const id = req.body.data?.user?.uid || "";
   const deviceID = req.body.data.deviceID;
-  const isPaired = req.body.data.isPaired;
-
-  const code = generateCode();
-
-  const data = {
-    email: uEmail,
-    deviceID: deviceID,
-    uid: id,
-    code: code,
-    isPaired: false,
-  };
 
   let arr = [];
   if (deviceID == "Parent") {
     const docRef = doc(db, "parents", id);
     const docSnap = await getDoc(docRef);
-
-    // If Parent exists, send back the paired CHILD & if not exists add the Parent in the firebase.
+    // SIGN IN: If Parent exists, send back the paired CHILD data.
     if (docSnap.exists()) {
-      const response = await getDoc(docRef)
+      const response = await getDoc(docRef);
       const childRef = await response?.data()?.code;
       if (typeof childRef === "object") {
         for (const codes of childRef) {
           const colRef = doc(db, "childs", codes);
-          let response = await getDoc(colRef).then(documents => documents.data())
+          let response = await getDoc(colRef).then((documents) =>
+            documents.data()
+          );
           arr.push(response);
         }
         res.send(arr);
@@ -55,14 +45,21 @@ export const handlePostUser = async (req, res) => {
           res.send(response.data());
         });
       }
+      //SIGN UP: if not exists add the Parent in the firebase.
     } else {
+      const code = generateCode();
+      const data = {
+        email: uEmail,
+        deviceID: deviceID,
+        uid: id,
+        code: code,
+        isPaired: false,
+      };
       setDoc(docRef, data).then(
         res.send({ status: 200, message: "OK", email: uEmail, code })
       );
     }
-
-    //If the CHILD does NOT exist, add the CHILD info in the firebase and also update isPaired value of its parent to TRUE
-    //& if CHILD do exists send back MSG: "Already exists" as well as its parents code, isPaired value
+    //SIGN UP: If the CHILD does NOT exist, add the CHILD info in the firebase and also update isPaired value of its parent to TRUE
   } else if (deviceID == "Child") {
     const c_code = req.body?.data?.code;
     const name = req.body?.data?.childInfo?.childState?.name;
@@ -80,11 +77,12 @@ export const handlePostUser = async (req, res) => {
         isPaired: true,
       };
       await setDoc(docRef, data);
-      const response = await validatePairing(c_code);
+      const response = await validatePairing(c_code); // Makes Parent isPaired: TRUE and returns the updated Parent Data
       await res.send(response);
     } else {
+      //SIGN IN: if CHILD do exists send back MSG: "Already exists" as well as its parents code, isPaired value
       const colRef = collection(db, "parents");
-      const q = query(colRef, where("code", 'array-contains', c_code));
+      const q = query(colRef, where("code", "array-contains", c_code));
       const response = await getDocs(q);
       const obj = response.docs[0];
       res.send([
