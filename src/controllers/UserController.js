@@ -74,14 +74,13 @@ export const handlePostUser = async (req, res) => {
       const q = query(colRef, where("code", "==", c_code));
       const response = await getDocs(q);
       const obj = response.docs[0];
-      console.log(response);
-      res.send({
+      res.send([{
         status: 200,
         message: "Already exists",
         deviceID: obj.data().deviceID,
         code: obj.data().code,
         isPaired: obj.data().isPaired,
-      });
+      }]);
     }
   }
 };
