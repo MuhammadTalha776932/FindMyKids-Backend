@@ -40,22 +40,21 @@ export const handlePostUser = async (req, res) => {
 
     // If Parent exists, send back the paired CHILD & if not exists add the Parent in the firebase.
     if (docSnap.exists()) {
-      await getDoc(docRef).then((response) => {
-        const childRef = response?.data()?.code;
-        if (typeof childRef === "object") {
-          for (const codes of childRef) {
-            const colRef = doc(db, "childs", codes);
-            let response = getDoc(colRef).then(documents => documents.data())
-            response.then(childDoc => arr.push(childDoc));
-          }
-          res.send(arr);
-        } else {
-          const colRef = doc(db, "childs", childRef);
-          getDoc(colRef).then((response) => {
-            res.send(response.data());
-          });
+      const response = await getDoc(docRef)
+      const childRef = await response?.data()?.code;
+      if (typeof childRef === "object") {
+        for (const codes of childRef) {
+          const colRef = doc(db, "childs", codes);
+          let response = await getDoc(colRef).then(documents => documents.data())
+          await response.then(childDoc => arr.push(childDoc));
         }
-      });
+        res.send(arr);
+      } else {
+        const colRef = doc(db, "childs", childRef);
+        getDoc(colRef).then((response) => {
+          res.send(response.data());
+        });
+      }
     } else {
       setDoc(docRef, data).then(
         res.send({ status: 200, message: "OK", email: uEmail, code })
