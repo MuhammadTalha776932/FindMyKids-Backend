@@ -56,6 +56,7 @@ export const handlePostUser = async (req, res) => {
     //& if CHILD do exists send back MSG: "Already exists" as well as its parents code, isPaired value
   } else if (deviceID == "Child") {
     const c_code = req.body?.data?.code;
+    const {name,age} = req.body?.data?.childInfo?.childState;
     const docRef = doc(db, "childs", c_code);
     const childSnapDoc = await getDoc(docRef);
     if (!childSnapDoc.exists()) {
@@ -64,6 +65,8 @@ export const handlePostUser = async (req, res) => {
         deviceID: deviceID,
         uid: id,
         code: c_code,
+        name:name,
+        age:age,
         isPaired: true,
       };
       await setDoc(docRef, data);
