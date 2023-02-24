@@ -26,10 +26,12 @@ export const handlePostUser = async (req, res) => {
   if (deviceID == "Parent") {
     const docRef = doc(db, "parents", id);
     const docSnap = await getDoc(docRef);
-    // SIGN IN: If Parent exists, send back the paired CHILD data.
+    // SIGN IN: If Parent exists, send back array of paired CHILD objects.
     if (docSnap.exists()) {
       const response = await getDoc(docRef);
       const childRef = await response?.data()?.code;
+
+      // if the code in the Parent data is an Array
       if (typeof childRef === "object") {
         for (const codes of childRef) {
           const colRef = doc(db, "childs", codes);
@@ -40,6 +42,7 @@ export const handlePostUser = async (req, res) => {
         }
         res.send(arr);
       } else {
+        //if not array
         const colRef = doc(db, "childs", childRef);
         getDoc(colRef).then((response) => {
           res.send(response.data());
