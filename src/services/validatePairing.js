@@ -1,3 +1,4 @@
+import { db } from "../configs/firebase.config.js";
 import {
   collection,
   query,
@@ -7,7 +8,6 @@ import {
   doc,
   getDoc,
 } from "firebase/firestore";
-import { db } from "../configs/firebase.config.js";
 
 // Making isPaired TRUE on both parent and child sides. ***When the child logs in, it means it has paired to parent.***
 export const validatePairing = async (code) => {
@@ -16,6 +16,7 @@ export const validatePairing = async (code) => {
   let arr = [];
 
   const response = await getDocs(q);
+  // Getting Parent Data by querying parent's secret code
   for (const e of response.docs) {
     const id = e.data().uid;
     const parentRef = doc(db, "parents", id);
@@ -25,6 +26,7 @@ export const validatePairing = async (code) => {
         ...parentSnap.data(),
         isPaired: true,
       });
+      //Getting Parent again after setting Parent Doc.
       const parentSnap1 = await getDoc(parentRef);
       arr.push(parentSnap1.data());
     }

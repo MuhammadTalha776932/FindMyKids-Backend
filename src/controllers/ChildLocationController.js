@@ -1,22 +1,11 @@
 import { db } from "../configs/firebase.config.js";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  onSnapshot,
-  query,
-  setDoc,
-  updateDoc,
-  where,
-} from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 export const handleGetLocation = async (req, res) => {
   res.send({ status: 200, message: "DONE" });
 };
 
+// When PARENT requests CHILDs info, send back the CHILD info based on PARENTs code.
 export const handlePostLocation = async (req, res) => {
   const id = await req.body?.data?.user?.uid || "";
   const deviceID = await req.body.deviceID;
