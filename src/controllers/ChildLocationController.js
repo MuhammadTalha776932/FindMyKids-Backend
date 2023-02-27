@@ -7,23 +7,23 @@ export const handleGetLocation = async (req, res) => {
 
 // When PARENT requests CHILDs info, send back the CHILD info based on PARENTs code.
 export const handlePostLocation = async (req, res) => {
-  const id = await req.body?.data?.user?.uid || "";
+  const id = (await req.body?.data?.user?.uid) || "";
   const deviceID = await req.body.deviceID;
 
   let arr = [];
   if (deviceID == "Parent") {
     const docRef = doc(db, "parents", id);
     const docSnap = await getDoc(docRef);
-    console.log("coordinate/ if");
     // if parent exists
     if (docSnap.exists()) {
-      console.log("coordinate/ exist if");
       let response = await getDoc(docRef);
       const childRef = await response?.data()?.code;
       if (typeof childRef === "object") {
         for (const codes of childRef) {
           const colRef = doc(db, "childs", codes);
-          let response = await getDoc(colRef).then(documents => documents.data())
+          let response = await getDoc(colRef).then((documents) =>
+            documents.data()
+          );
           arr.push(response);
         }
         res.send(arr);
