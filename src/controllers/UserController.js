@@ -84,7 +84,7 @@ export const handlePostUser = async (req, res) => {
           isPaired: true,
         };
         await setDoc(docRef, data);
-        res.send(data);
+        res.send([data]);
       } else {
         //SIGN IN: if CHILD do exists send back MSG: "Already exists" as well as its parents code, isPaired value
         const docRef = doc(db, "childs", c_code);
