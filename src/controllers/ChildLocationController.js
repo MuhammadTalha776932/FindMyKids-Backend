@@ -23,7 +23,7 @@ export const handlePostLocation = async (req, res) => {
         for (const codes of childRef) {
           const childDocRef = doc(db, "childs", codes); // getting the childs data with the codes
           let response = await getDoc(childDocRef).then((documents) => {
-            return documents.data().isPaired ? documents.data() : null;
+            return documents?.data()?.isPaired ? documents.data() : null;
           });
           if (response) {
             arr.push(response);
