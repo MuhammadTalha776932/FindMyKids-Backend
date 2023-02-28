@@ -89,7 +89,6 @@ export const handlePostUser = async (req, res) => {
       } else {
         //SIGN IN: if CHILD do exists send back MSG: "Already exists" as well as its parents code, isPaired value
         const docRef = doc(db, "childs", c_code);
-        // const q = query(colRef, where("uid", "==", id));
         const response = await getDoc(docRef);
         if (response.data().uid === id) {
           // If the uid of child matches with the uid in the DB
