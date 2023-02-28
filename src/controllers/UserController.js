@@ -59,9 +59,11 @@ export const handlePostUser = async (req, res) => {
         uid: id,
         code: [code],
       };
-      setDoc(docRef, data).then(
-        res.send({ status: 200, message: "OK", email: uEmail, code })
-      );
+      setDoc(docRef, data)
+        .then(() => {
+          res.send({ status: 200, message: "OK", email: uEmail, code });
+        })
+        .catch((err) => res.send({ message: err.message }));
     }
   } else if (deviceID == "Child") {
     const c_code = req.body?.data?.code;
