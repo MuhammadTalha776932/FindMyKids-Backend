@@ -5,7 +5,7 @@ import bodyParser from "body-parser";
 import { notificationRouter } from "./routes/NotificationRoutes.js";
 import { userRouter } from "./routes/UserRoutes.js";
 import { coordinateRouter } from "./routes/CoordinateRoutes.js";
-import { parentRouter } from "./routes/ParentRoutes.js";
+import { parentRouter } from "./routes/ParentRoute.js";
 import { defaultRouter } from "./routes/DefaultRoutes.js";
 
 const app = express();
