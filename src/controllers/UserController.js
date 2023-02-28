@@ -29,16 +29,18 @@ export const handlePostUser = async (req, res) => {
     // SIGN IN: If Parent exists, send back array of paired CHILD objects.
     if (docSnap.exists()) {
       const response = await getDoc(docRef);
-      const childRef = await response?.data()?.code;
 
+      const childRef = await response?.data()?.code;
       // if the code in the Parent data is an Array
       if (typeof childRef === "object") {
         for (const codes of childRef) {
           const colRef = doc(db, "childs", codes);
-          let response = await getDoc(colRef).then((documents) =>
-            documents.data()
-          );
-          arr.push(response);
+          let response = await getDoc(colRef).then((documents) => {
+            return documents.data()?.isPaired ? documents.data() : null;
+          });
+          if (response) {
+            arr.push(response);
+          }
         }
         res.send(arr);
       } else {
@@ -55,8 +57,7 @@ export const handlePostUser = async (req, res) => {
         email: uEmail,
         deviceID: deviceID,
         uid: id,
-        code: code,
-        isPaired: false,
+        code: [code],
       };
       setDoc(docRef, data).then(
         res.send({ status: 200, message: "OK", email: uEmail, code })

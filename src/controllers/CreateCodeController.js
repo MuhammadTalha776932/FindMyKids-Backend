@@ -1,8 +1,8 @@
-// new code is generated for the next child and pushed to the array of codes in parent document
-
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../configs/firebase.config.js";
 import { generateCode } from "../services/generateCode.js";
+
+// new code is generated for the next child and pushed to the array of codes in parent document
 
 export const createCodeHandler = (req, res) => {
   const uEmail = req.body?.data?.user?.email || "";
