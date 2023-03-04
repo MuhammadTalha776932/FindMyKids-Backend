@@ -42,7 +42,16 @@ export const handlePostUser = async (req, res) => {
             arr.push(response);
           }
         }
-        res.send(arr);
+        // Added by Muhammad Talha To handle the empty array return when parent have code but not paired with child.
+        if (arr.length !== 0) {
+          res.send(arr);
+        } else {
+          // Added by Muhammad Talha To send the code that is parent contains. Because child's are not paired. 
+          const docRef = doc(db, "parents", id);
+          const docSnap = await getDoc(docRef);
+          const filterForCode = docSnap.data()?.code
+          res.send(filterForCode);
+        }
       } else {
         //if not array
         const colRef = doc(db, "childs", childRef);
