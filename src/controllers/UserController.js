@@ -50,7 +50,7 @@ export const handlePostUser = async (req, res) => {
           const docRef = doc(db, "parents", id);
           const docSnap = await getDoc(docRef);
           const filterForCode = docSnap.data()?.code
-          res.send({code:filterForCode});
+          res.send({code:filterForCode[0]});
         }
       } else {
         //if not array
