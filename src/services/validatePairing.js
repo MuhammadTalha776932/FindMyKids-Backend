@@ -8,7 +8,7 @@ export const validatePairing = async (code) => {
 
   // Testing purpose... only
 
-  console.log("===>>>",response);
+  console.log("===>>>",response.docs[0].data());
 
   if (response.docs[0]?.exists()) {
     return true; // if code exists in the parent, only then return true
