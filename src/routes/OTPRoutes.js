@@ -1,11 +1,10 @@
 import express from "express";
-import { handleSignOut } from "../controllers/SignOutController.js";
 import {
     handleOTPGet,
     handleOTPPost
-} from "../controllers/OTPController";
+} from "../controllers/OTPController.js";
 
-export const optRouter = express.Router();
+export const otpRouter = express.Router();
 
-optRouter.get("/", handleOTPGet);
-optRouter.post("/", handleOTPPost);
+otpRouter.get("/", handleOTPGet);
+otpRouter.post("/", handleOTPPost);
