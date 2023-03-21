@@ -11,8 +11,8 @@ export const handleOTPPost = async (req,res) => {
     const response = await validatePairing(c_code);
 
     if (response) {
-        return response
+        res.send({isCorrect:response})
     }else{
-        return response
+        res.send({isCorrect:response})
     }
 }
