@@ -17,7 +17,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use((req))
+app.use((req,res,next) =>{
+  // write the code for logs collection here
+})
 
 
 createNewCollection(); // create the logs collection which tracks the url
